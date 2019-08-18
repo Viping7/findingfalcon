@@ -17,13 +17,12 @@ class App extends Component {
   render() {
     return (
       <Provider store = {store}>
-          <Header></Header>
           <HashRouter history={history}>
+            <Header></Header>
             <Switch>
                <Redirect from="/" to="/search" exact="true"/>
                <Route path='/search' component = {SearchComponent}></Route>
                <Route path='/response' component = {ResponseComponent}></Route>
-
             </Switch>
           </HashRouter>
       </Provider>

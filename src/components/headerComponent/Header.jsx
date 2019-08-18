@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import './Header.scss';
-import {Link} from 'react-router-dom';
+import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+import { resetAll } from '../../actions/resetAction';
 class Header extends Component {
+  constructor(props){
+    super(props)
+    this.reset = this.reset.bind(this);
+  }
+
+  reset(){
+    this.props.resetAll()
+  }
+
   render()  
   {
     return (
@@ -11,7 +22,7 @@ class Header extends Component {
             <h3>Finding Falcone</h3>
             <ul className="navbar-nav navbar-right">
               <li className="nav-item">
-                <a href ='javascript:;' className="nav-link">Reset</a>
+                <a onClick={this.reset} className="nav-link">Reset</a>
               </li>
               
               <li className="nav-item">
@@ -25,5 +36,7 @@ class Header extends Component {
     );
   }
 }
-
-export default Header;
+const mapStatesToProps = state => ({
+  resetTriggered: state.search.resetTriggered
+})
+export default withRouter(connect(mapStatesToProps,{resetAll})(Header))

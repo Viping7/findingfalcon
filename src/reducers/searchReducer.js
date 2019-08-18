@@ -1,10 +1,11 @@
-import {FIND_FALCONE_SUCCESS,FIND_FALCONE_ERROR, FIND_FALCONE_SERVER_ERROR} from '../actions/types';
+import {FIND_FALCONE_SUCCESS,FIND_FALCONE_ERROR, FIND_FALCONE_SERVER_ERROR,RESET} from '../actions/types';
 let initialState = {
     findFalconeResp : '',
     findFalconeSuccess: false,
     findFalconeError: false,
     findFalconeServerError : '',
-    timeTaken: 0
+    timeTaken: 0,
+    resetTriggered: false
 }
 export const searchReducer = (state = initialState,actions) => {
     switch(actions.type){
@@ -30,6 +31,15 @@ export const searchReducer = (state = initialState,actions) => {
             findFalconeSuccess: false,
             findFalconeError: false,
             findFalconeServerError: actions.data
+        }
+        case RESET: return {
+            ...state,
+            resetTriggered: true,
+            findFalconeResp : '',
+            findFalconeSuccess: false,
+            findFalconeError: false,
+            findFalconeServerError : '',
+            timeTaken: 0,
         }
         default: return{
             ...state

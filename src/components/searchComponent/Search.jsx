@@ -6,8 +6,9 @@ import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+var vehiclesPlaceHolder; //to handle reset
 class SearchComponent extends Component{
+
     constructor(props){
         super(props);
         this.findFalcone = this.findFalcone.bind(this);
@@ -27,6 +28,22 @@ class SearchComponent extends Component{
 
     }
     
+    componentWillReceiveProps(nextProps){
+        if(nextProps.resetTriggered){
+            this.setState({
+                time:0,
+                vehicles: vehiclesPlaceHolder,
+                selectedData: {
+                    planets: [],
+                    vehicles: [],
+                    planetsIndex: new Array(4).fill(''),
+                    vehiclesIndex: new Array(4).fill('')
+                },
+                planetsError:''
+            })
+        }
+    }
+
     componentDidMount(){
         this.getPlanets();
         this.getVehicles();
@@ -46,6 +63,7 @@ class SearchComponent extends Component{
     
     getVehicles(){
         http('get','/vehicles').then(response=>{
+            vehiclesPlaceHolder =  JSON.parse(JSON.stringify(response.data));
             this.setState({
                 vehicles:response.data
             })
@@ -57,11 +75,12 @@ class SearchComponent extends Component{
     }
 
     handleChange(index,event,type){
+
        let newSelections = this.state.selectedData[type];
        let indexName = `${type}Index`;
-       let prevIndex = newSelections[index];
+       let prevIndex = newSelections[index]; // To reset the previous count and timetake
        newSelections[index] = this.state[type][event.target.value];
-       let indexArray = this.state.selectedData[indexName]
+       let indexArray = this.state.selectedData[indexName] // Array of selected elements index
        indexArray[index] = event.target.value; 
         if(type=='vehicles'){
            let timeTaken = this.state.time;
@@ -164,5 +183,6 @@ const mapStatesToProps = state => ({
     findFalconeSuccess: state.search.findFalconeSuccess,
     findFalconeError: state.search.findFalconeError,
     findFalconeServerError: state.search.findFalconeServerError, 
+    resetTriggered: state.search.resetTriggered
 })
 export default withRouter(connect(mapStatesToProps, {findFalcon})(SearchComponent));

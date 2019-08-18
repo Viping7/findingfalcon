@@ -14,8 +14,10 @@ class ResponseComponent extends Component{
             return;
         }
     }
+    componentWillReceiveProps(nextProps){
+        this.props.history.push('/search');
+    }
     componentDidMount(){
-      
         let message = '';
         if(this.props.findFalconeError){
             message = 'Oopsiee! Counldnt find falcone '
