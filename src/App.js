@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { HashRouter, Route ,Switch, Redirect} from "react-router-dom";
+import {Provider} from "react-redux";
+import store from './store';
 import './App.css';
+import SearchComponent from './components/SearchComponent/Search';
+import { createHashHistory } from 'history';
+import Header from './components/headerComponent/Header';
+const history = createHashHistory();
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props){
+    super(props);
+    localStorage.setItem('id',"5c894c58bdaa7a17f4f0979f");
+  }
+  render() {
+    return (
+      <Provider store = {store}>
+          <Header></Header>
+          <HashRouter history={history}>
+            <Switch>
+               <Redirect from="/" to="/search" exact="true"/>
+               <Route path='/search' component = {SearchComponent}></Route>
+            </Switch>
+          </HashRouter>
+      </Provider>
+    );
+  }
 }
 
 export default App;

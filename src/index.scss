@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.checkmark{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  border-radius: 100px;
+  border: 1px solid #aaa;
+  &:after{
+      content: "";
+      position: absolute;
+      display: none;
+  }
+}
+.checkbox {
+  display: block;
+  position: relative;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  input{
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+      &:checked ~ .checkmark{
+          background-color: #508eea;
+          border-color: transparent;
+          &:after{
+              display: block;
+          }
+      }
+ 
+  }
+  h6{
+    margin-left: 30px;
+  }
+  .checkmark:after{
+      left: 7px;
+      top: 1.5px;
+      width: 5px;
+      height: 12px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+  }
+  &:hover{
+      input ~ .checkmark{
+          background-color: #508eea;
+      }
+  }
+  &.disabled{
+    opacity: 0.2;
+  }
+}

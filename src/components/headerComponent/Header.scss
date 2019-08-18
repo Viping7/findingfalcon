@@ -1,0 +1,29 @@
+
+.navbar{
+    background-color:#1a1e27;
+    margin-bottom: 30px;
+    h3{
+        color:  #fff;
+    }
+.navbar-nav{
+    margin-left:80px; 
+    li{
+        a{
+            font-size: 14px;
+            margin: 0px 8px;
+            color: #fff;
+            &.active{
+                color: green;
+            }
+            &:hover{
+                @extend .active;
+            }
+        }
+        &:last-child{
+            a{
+                margin-right: 0px
+                        }
+        }
+    }
+}
+}
