@@ -3,9 +3,10 @@ import { HashRouter, Route ,Switch, Redirect} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from './store';
 import './App.css';
-import SearchComponent from './components/SearchComponent/Search';
+import SearchComponent from './components/searchComponent/Search';
 import { createHashHistory } from 'history';
 import Header from './components/headerComponent/Header';
+import ResponseComponent from './components/responseComponent/response';
 const history = createHashHistory();
 
 class App extends Component {
@@ -21,6 +22,8 @@ class App extends Component {
             <Switch>
                <Redirect from="/" to="/search" exact="true"/>
                <Route path='/search' component = {SearchComponent}></Route>
+               <Route path='/response' component = {ResponseComponent}></Route>
+
             </Switch>
           </HashRouter>
       </Provider>

@@ -3,7 +3,8 @@ let initialState = {
     findFalconeResp : '',
     findFalconeSuccess: false,
     findFalconeError: false,
-    findFalconeServerError : ''
+    findFalconeServerError : '',
+    timeTaken: 0
 }
 export const searchReducer = (state = initialState,actions) => {
     switch(actions.type){
@@ -12,14 +13,16 @@ export const searchReducer = (state = initialState,actions) => {
             findFalconeResp: actions.data,
             findFalconeSuccess: true,
             findFalconeError: false,
-            findFalconeServerError: ''
+            findFalconeServerError: '',
+            timeTaken: actions.timeTaken
         }
         case FIND_FALCONE_ERROR : return {
             ...state,
             findFalconeResp: '',
             findFalconeSuccess: false,
             findFalconeError: true,
-            findFalconeServerError: ''
+            findFalconeServerError: '',
+            timeTaken: actions.timeTaken
         }
         case FIND_FALCONE_SERVER_ERROR: return {
             ...state,

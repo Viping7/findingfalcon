@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 import { http } from '../../services/http';
 import Vehicles from '../helpers/vehicles';
+import { findFalcon } from '../../actions/findAction';
+import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class SearchComponent extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+        this.findFalcone = this.findFalcone.bind(this);
         this.state = {
             planets: [],
             vehicles: [],
@@ -17,11 +23,15 @@ class SearchComponent extends Component{
             },
             planetsError:''
         }
+        toast.configure()
+
     }
+    
     componentDidMount(){
         this.getPlanets();
         this.getVehicles();
     }
+
     getPlanets(){
         http('get','/planets').then(response=>{
             this.setState({
@@ -33,6 +43,7 @@ class SearchComponent extends Component{
             })
         })
     }
+    
     getVehicles(){
         http('get','/vehicles').then(response=>{
             this.setState({
@@ -62,12 +73,6 @@ class SearchComponent extends Component{
             timeTaken -=  selectedPlanet.distance / this.state[type][this.state[type].indexOf(prevIndex)].speed
            }
            timeTaken += selectedPlanet.distance / selectedVehicle.speed;
-           if(selectedPlanet.distance > selectedVehicle.max_distance){
-               this.setState({
-                   distanceError:"The distance cant be convered by this vehicle"
-               })
-               return false;
-           }
            this.setState({
                time: timeTaken,
                distanceError: ''
@@ -80,12 +85,40 @@ class SearchComponent extends Component{
            }
        })
     }
-    
+
+    findFalcone(){
+        http('post','/token',{},{'Accept':'application/json'}).then(response=>{
+            if(response.data && response.data.token){
+                let payload = {};
+                payload.planet_names = this.state.selectedData['planets'].map((x)=>{
+                    return x.name
+                })
+                payload.vehicle_names = this.state.selectedData['vehicles'].map((x)=>{
+                    return x.name
+                })
+                payload.token = response.data.token;
+                let header = {
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                }
+                this.props.findFalcon('/find',payload,header,this.state.time).then(()=>{
+                 if(this.props.findFalconeSuccess){
+                    this.props.history.push('/response');
+                 }else if(this.props.findFalconeError){
+                    this.props.history.push('/response');
+                 }   
+                })
+            }
+        },err=>{
+            toast.error("Error while finding falcone !");
+        })
+    }
+
     render(){
         let planetsList = [];
         this.state.planets.map((planet,i)=>{
             planetsList.push(
-                <option disabled={this.state.selectedData.planets.includes(planet)} value={i} key={i}>{planet.name}</option>
+                <option style={{display: this.state.selectedData.planets.includes(planet)? "none": "block"}} disabled={this.state.selectedData.planets.includes(planet)} value={i} key={i}>{planet.name}</option> 
             )
         })
         let seletList = [];
@@ -93,8 +126,8 @@ class SearchComponent extends Component{
             for(let i=0;i<4;i++){
                 seletList.push(
                     <div className='col-md-2' key={i}>
-                        <select onChange={(e)=>this.handleChange(i,e,'planets')} value={this.state.selectedData.planetsIndex[i]} >
-                        <option disabled selected>Select</option>
+                        <select onChange={(e)=>this.handleChange(i,e,'planets')} value={this.state.selectedData.planetsIndex[i]} defaultValue=''>
+                        <option disabled value=''>Select</option>
                                         {planetsList}
                         </select>
                         <div>
@@ -116,10 +149,20 @@ class SearchComponent extends Component{
                             </div>
                     </div>
                     {this.state.distanceError}
+                    <div className='row'>
+                        <div className='col-md-12'>
+                            <button onClick={this.findFalcone} disabled={this.state.selectedData.planets.length != 4 || this.state.selectedData.vehicles.length != 4 }>Find Falcone</button>
+                        </div>
+                    </div>
                 </div>
             </section>
         )
     }
 } 
-
-export default SearchComponent
+const mapStatesToProps = state => ({
+    findFalconeResp: state.search.findFalconeResp,
+    findFalconeSuccess: state.search.findFalconeSuccess,
+    findFalconeError: state.search.findFalconeError,
+    findFalconeServerError: state.search.findFalconeServerError, 
+})
+export default withRouter(connect(mapStatesToProps, {findFalcon})(SearchComponent));
