@@ -6,7 +6,7 @@ import './App.css';
 import SearchComponent from './components/searchComponent/Search';
 import { createHashHistory } from 'history';
 import Header from './components/headerComponent/Header';
-import ResponseComponent from './components/responseComponent/response';
+import ResponseComponent from './components/responseComponent/Response';
 const history = createHashHistory();
 
 class App extends Component {

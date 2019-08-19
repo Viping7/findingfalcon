@@ -1,4 +1,4 @@
-import {FIND_FALCONE_SUCCESS,FIND_FALCONE_ERROR, FIND_FALCONE_SERVER_ERROR,RESET} from '../actions/types';
+import {FIND_FALCONE_SUCCESS,FIND_FALCONE_ERROR, FIND_FALCONE_SERVER_ERROR,RESET,RESET_BACK} from '../actions/types';
 let initialState = {
     findFalconeResp : '',
     findFalconeSuccess: false,
@@ -40,6 +40,10 @@ export const searchReducer = (state = initialState,actions) => {
             findFalconeError: false,
             findFalconeServerError : '',
             timeTaken: 0,
+        }
+        case RESET_BACK: return{
+            ...state,
+            resetTriggered: false
         }
         default: return{
             ...state

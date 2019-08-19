@@ -3,7 +3,6 @@ import React from 'react'
 function Vehicles(props){
     let vehicleList = [];
     props.vehicles.map((vehicle,i) => {
-        console.log(props.vehiclesIndex[props.index]);
         vehicleList.push(
             <label className={`checkbox ${vehicle.total_no <= 0 && props.vehiclesIndex[props.index] != i ?'disabled':'ds'}`} htmlFor={"vehicle"+i+'_'+props.index} key={i} >
             <h6>{vehicle.name} <span>({vehicle.total_no})</span></h6>

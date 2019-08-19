@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import { http } from '../../services/http';
 import Vehicles from '../helpers/vehicles';
 import { findFalcon } from '../../actions/findAction';
+import { setResetBack } from '../../actions/resetAction';
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './Search.scss'
 var vehiclesPlaceHolder; //to handle reset
 class SearchComponent extends Component{
 
@@ -41,6 +43,7 @@ class SearchComponent extends Component{
                 },
                 planetsError:''
             })
+            this.props.setResetBack();
         }
     }
 
@@ -144,12 +147,12 @@ class SearchComponent extends Component{
         if(planetsList.length > 0){
             for(let i=0;i<4;i++){
                 seletList.push(
-                    <div className='col-md-2' key={i}>
-                        <select onChange={(e)=>this.handleChange(i,e,'planets')} value={this.state.selectedData.planetsIndex[i]} defaultValue=''>
+                    <div className='col-md-3' key={i}>
+                        <select className='form-control' onChange={(e)=>this.handleChange(i,e,'planets')} value={this.state.selectedData.planetsIndex[i]} defaultValue=''>
                         <option disabled value=''>Select</option>
                                         {planetsList}
                         </select>
-                        <div>
+                        <div className='vehicle-container'>
                         {(this.state.selectedData.planetsIndex[i]) ? <Vehicles vehicles={this.state.vehicles} index={i} handleVehicleChange = {(e)=>this.handleChange(i,e,'vehicles')} vehiclesIndex={this.state.selectedData.vehiclesIndex}/>  : null}
                         </div>
                     </div>
@@ -158,20 +161,21 @@ class SearchComponent extends Component{
         }
 
         return(
-            <section>
+            <section className='search'>
                 <div className='container'>
-                    <div className='row'>
-                            {seletList}
-                            <div className='col-md-4'>
-                                <h2>Time Taken</h2>
-                                <h3>{this.state.time}</h3>
+                    <div className='row align-items-center vh-100'>
+                        <div className='col-12'>
+                            <div className='row'>
+                                {seletList}
+                                </div>
+                                <div className='row'>
+                                    <div className='col-12 text-center time-taken'>
+                                            <h2>Time taken : <span>{this.state.time}</span></h2>
+                                    </div>
+                                </div>
+                                {this.state.distanceError}
+                                <button className='btn btn-primary btn-custom' onClick={this.findFalcone} disabled={this.state.selectedData.planets.length != 4 || this.state.selectedData.vehicles.length != 4 }>Find Falcone</button>    
                             </div>
-                    </div>
-                    {this.state.distanceError}
-                    <div className='row'>
-                        <div className='col-md-12'>
-                            <button onClick={this.findFalcone} disabled={this.state.selectedData.planets.length != 4 || this.state.selectedData.vehicles.length != 4 }>Find Falcone</button>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -185,4 +189,4 @@ const mapStatesToProps = state => ({
     findFalconeServerError: state.search.findFalconeServerError, 
     resetTriggered: state.search.resetTriggered
 })
-export default withRouter(connect(mapStatesToProps, {findFalcon})(SearchComponent));
+export default withRouter(connect(mapStatesToProps, {findFalcon,setResetBack})(SearchComponent));

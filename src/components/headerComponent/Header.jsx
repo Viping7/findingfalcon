@@ -17,7 +17,7 @@ class Header extends Component {
   {
     return (
       <header>
-       <nav className="navbar navbar-expand-lg  static-top na-cp">
+       <nav className="navbar navbar-expand-lg  fixed-top na-cp">
         <div className="container">          
             <h3>Finding Falcone</h3>
             <ul className="navbar-nav navbar-right">

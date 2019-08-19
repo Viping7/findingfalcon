@@ -1,9 +1,10 @@
 
 .navbar{
-    background-color:#1a1e27;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     margin-bottom: 30px;
+    background: #fff;
     h3{
-        color:  #fff;
+        color:  #508eea;
     }
 .navbar-nav{
     margin-left:80px; 
@@ -11,11 +12,12 @@
         a{
             font-size: 14px;
             margin: 0px 8px;
-            color: #fff;
+            color:  #508eea;
             &.active{
-                color: green;
+                color:#0f55bd;
             }
             &:hover{
+                cursor: pointer;
                 @extend .active;
             }
         }
