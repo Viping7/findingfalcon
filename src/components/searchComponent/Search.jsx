@@ -78,7 +78,6 @@ class SearchComponent extends Component{
     }
 
     handleChange(index,event,type){
-
        let newSelections = this.state.selectedData[type];
        let indexName = `${type}Index`;
        let prevIndex = newSelections[index]; // To reset the previous count and timetake
@@ -107,7 +106,18 @@ class SearchComponent extends Component{
            }
        })
     }
-
+    checkValidity(item){
+        if(item.length < 4){
+            return true;
+        }else{
+            for(let i=0;i<item.length;i++){
+                if(!item[i]){
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
     findFalcone(){
         http('post','/token',{},{'Accept':'application/json'}).then(response=>{
             if(response.data && response.data.token){
@@ -174,7 +184,7 @@ class SearchComponent extends Component{
                                     </div>
                                 </div>
                                 {this.state.distanceError}
-                                <button className='btn btn-primary btn-custom' onClick={this.findFalcone} disabled={this.state.selectedData.planets.length != 4 || this.state.selectedData.vehicles.length != 4 }>Find Falcone</button>    
+                                <button className='btn btn-primary btn-custom' onClick={this.findFalcone} disabled={this.checkValidity(this.state.selectedData.planets) || this.checkValidity(this.state.selectedData.vehicles)}>Find Falcone</button>    
                             </div>
                     </div>
                 </div>

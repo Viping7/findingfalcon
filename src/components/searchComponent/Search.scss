@@ -4,6 +4,13 @@
       background-size: 27%;
       background-repeat: no-repeat;
       background-position: bottom left;
+      @media only screen and (max-width:480px){
+        .vh-100{
+            height: auto !important;
+            overflow: auto;
+            margin-top: 100px;
+        }
+      }
         datalist{
             display: block !important;
         }
@@ -29,18 +36,5 @@
                 }
             }
         }
-        .btn-custom{
-            border-radius: 0px;
-            padding: 8px 40px;
-            margin: 10px auto;
-            display: table;
-            background: #508eea;
-            border-color: #508eea;
-            &:disabled{
-                background: #ccc;
-                color: #333;
-                cursor: not-allowed;
-                border-color: #ccc;
-            }
-        }
+     
 }

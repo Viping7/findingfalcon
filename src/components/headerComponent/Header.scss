@@ -5,6 +5,9 @@
     background: #fff;
     h3{
         color:  #508eea;
+        @media only screen and (max-width:480px){
+            font-size: 20px;
+        }
     }
 .navbar-nav{
     margin-left:80px; 
@@ -27,5 +30,9 @@
                         }
         }
     }
+    @media only screen and (max-width:480px){
+        flex-direction: row;
+    }
+    
 }
 }
