@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Search.scss'
 var vehiclesPlaceHolder; //to handle reset
 class SearchComponent extends Component{
-
     constructor(props){
         super(props);
         this.findFalcone = this.findFalcone.bind(this);
@@ -26,10 +25,8 @@ class SearchComponent extends Component{
             },
             planetsError:''
         }
-        toast.configure()
-
-    }
-    
+        toast.configure();
+    }    
     componentWillReceiveProps(nextProps){
         if(nextProps.resetTriggered){
             this.setState({
@@ -81,24 +78,30 @@ class SearchComponent extends Component{
        let newSelections = this.state.selectedData[type];
        let indexName = `${type}Index`;
        let prevIndex = newSelections[index]; // To reset the previous count and timetake
-       newSelections[index] = this.state[type][event.target.value];
        let indexArray = this.state.selectedData[indexName] // Array of selected elements index
        indexArray[index] = event.target.value; 
         if(type=='vehicles'){
+           let selectedVehicle =  this.state['vehicles'][event.target.value];
+           let selectedPlanet = this.state['planets'][this.state.selectedData.planetsIndex[index]];     
+           if(selectedVehicle.max_distance < selectedPlanet.distance){
+               this.setState({
+                   distanceError:'Error'
+               })
+               return;
+           }
            let timeTaken = this.state.time;
-           let selectedVehicle =  this.state[type][event.target.value];
-           let selectedPlanet = this.state['planets'][this.state.selectedData.planetsIndex[index]];
            selectedVehicle.total_no -= 1
            if(prevIndex){
             this.state[type][this.state[type].indexOf(prevIndex)].total_no += 1;
             timeTaken -=  selectedPlanet.distance / this.state[type][this.state[type].indexOf(prevIndex)].speed
            }
-           timeTaken += selectedPlanet.distance / selectedVehicle.speed;
+           timeTaken += selectedPlanet.distance / selectedVehicle.speed;       
            this.setState({
                time: timeTaken,
                distanceError: ''
            })
         }
+       newSelections[index] = this.state[type][event.target.value];
        this.setState({
            selectedPlanets : {
                [type]: newSelections,
