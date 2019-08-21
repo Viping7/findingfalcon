@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Search.scss'
 var vehiclesPlaceHolder; //to handle reset
+
 class SearchComponent extends Component{
     constructor(props){
         super(props);
@@ -23,7 +24,6 @@ class SearchComponent extends Component{
                 planetsIndex: [],
                 vehiclesIndex: []
             },
-            planetsError:''
         }
         toast.configure();
     }    
@@ -37,8 +37,7 @@ class SearchComponent extends Component{
                     vehicles: [],
                     planetsIndex: new Array(4).fill(''),
                     vehiclesIndex: new Array(4).fill('')
-                },
-                planetsError:''
+                }
             })
             this.props.setResetBack();
         }
@@ -55,9 +54,7 @@ class SearchComponent extends Component{
                 planets:response.data
             })
         },err =>{
-            this.setState({
-                planetsError: err
-            })
+            toast.error("Error while getting planets !");
         })
     }
     
@@ -68,20 +65,19 @@ class SearchComponent extends Component{
                 vehicles:response.data
             })
         },err =>{
-            this.setState({
-                planetsError: err
-            })
+            toast.error("Error while getting vehicle !");
         })
     }
 
     handleChange(index,event,type){
         let newSelections = this.state.selectedData[type];
         let indexName = `${type}Index`;
-        let prevIndex = newSelections[index]; // To reset the previous count and timetake
-        let indexArray = this.state.selectedData[indexName] // Array of selected elements index
+        let prevIndex = newSelections[index]; // To reset the previous count and timetaken
+        let indexArray = this.state.selectedData[indexName] // Array of selected elements indexes
         indexArray[index] = event.target.value; 
         let timeTaken = this.state.time;
         if(type=='vehicles'){
+            // To change time taken and vehicle count
             let selectedVehicle =  this.state['vehicles'][event.target.value];
             let selectedPlanet = this.state['planets'][this.state.selectedData.planetsIndex[index]];
             selectedVehicle.total_no -= 1
@@ -91,21 +87,21 @@ class SearchComponent extends Component{
             }
             timeTaken += selectedPlanet.distance / selectedVehicle.speed;       
         }else{
+            // To change the time taken based on planet selected for that vehicle
             let selectedPlanet =  this.state['planets'][event.target.value];
             let selectedVehicle = this.state['vehicles'][this.state.selectedData.vehiclesIndex[index]];
             let prevVehicle = this.state.selectedData['vehicles'][index];
             let prevPlanet = this.state.selectedData['planets'][index];
             if(selectedPlanet && selectedVehicle){
-            if(prevVehicle && prevPlanet){
-                timeTaken -=  this.state['planets'][this.state['planets'].indexOf(prevPlanet)].distance / this.state['vehicles'][this.state['vehicles'].indexOf(prevVehicle)].speed
+                if(prevVehicle && prevPlanet){
+                    timeTaken -=  this.state['planets'][this.state['planets'].indexOf(prevPlanet)].distance / this.state['vehicles'][this.state['vehicles'].indexOf(prevVehicle)].speed;
                 }
-                timeTaken += selectedPlanet.distance / selectedVehicle.speed;       
+                timeTaken += selectedPlanet.distance / selectedVehicle.speed;
             }
         }
         newSelections[index] = this.state[type][event.target.value];
         this.setState({
                 time: timeTaken,
-                distanceError: '',
                 selectedPlanets : {
                 [type]: newSelections,
                 [indexName]: indexArray
@@ -184,15 +180,14 @@ class SearchComponent extends Component{
                         <div className='col-12'>
                             <div className='row'>
                                 {seletList}
-                                </div>
-                                <div className='row'>
-                                    <div className='col-12 text-center time-taken'>
-                                            <h2>Time taken : <span>{this.state.time}</span></h2>
-                                    </div>
-                                </div>
-                                {this.state.distanceError}
-                                <button className='btn btn-primary btn-custom' onClick={this.findFalcone} disabled={this.checkValidity(this.state.selectedData.planets) || this.checkValidity(this.state.selectedData.vehicles)}>Find Falcone</button>    
                             </div>
+                            <div className='row'>
+                                <div className='col-12 text-center time-taken'>
+                                        <h2>Time taken : <span>{this.state.time}</span></h2>
+                                </div>
+                            </div>
+                            <button className='btn btn-primary btn-custom' onClick={this.findFalcone} disabled={this.checkValidity(this.state.selectedData.planets) || this.checkValidity(this.state.selectedData.vehicles)}>Find Falcone</button>    
+                        </div>
                     </div>
                 </div>
             </section>

@@ -4,8 +4,9 @@ import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { resetAll } from '../../actions/resetAction';
 class Header extends Component {
+
   constructor(props){
-    super(props)
+    super(props);
     this.reset = this.reset.bind(this);
     this.home = this.home.bind(this);
   }
@@ -41,7 +42,9 @@ class Header extends Component {
     );
   }
 }
+
 const mapStatesToProps = state => ({
   resetTriggered: state.search.resetTriggered
 })
+
 export default withRouter(connect(mapStatesToProps,{resetAll})(Header))

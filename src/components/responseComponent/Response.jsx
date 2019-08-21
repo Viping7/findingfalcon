@@ -5,6 +5,7 @@ import { setResetBack,resetAll } from '../../actions/resetAction';
 import './Response.scss'
 
 class ResponseComponent extends Component{
+    
     constructor(props){
         super(props);
         this.state = {
@@ -17,18 +18,20 @@ class ResponseComponent extends Component{
             return;
         }
     }
+
     componentWillReceiveProps(nextProps){
         if(nextProps.resetTriggered){
             this.props.history.push('/search');
             this.props.setResetBack();
         }
     }
+
     componentDidMount(){
         let message = '';
         if(this.props.findFalconeError){
-            message = 'Oopsiee! Counldnt find falcone '
+            message = 'Oopsiee! Counldn\'t find falcone';
         }else{
-            message = 'Success! Congratulations on finding Falcone. King Shah is pleased'
+            message = 'Success! Congratulations on finding Falcone. King Shah is pleased';
         }
         this.setState({
             timeTaken  :this.props.timeTaken,
@@ -36,11 +39,13 @@ class ResponseComponent extends Component{
             planetName :this.props.findFalconeResp,
         })
     }
+    
     startOver(){
         this.props.resetAll();
         this.props.history.push('/search');
         this.props.setResetBack();
     }
+
     render(){
         return(
             <section>
