@@ -80,10 +80,10 @@ class SearchComponent extends Component{
        let prevIndex = newSelections[index]; // To reset the previous count and timetake
        let indexArray = this.state.selectedData[indexName] // Array of selected elements index
        indexArray[index] = event.target.value; 
+       let timeTaken = this.state.time;
         if(type=='vehicles'){
            let selectedVehicle =  this.state['vehicles'][event.target.value];
            let selectedPlanet = this.state['planets'][this.state.selectedData.planetsIndex[index]];
-           let timeTaken = this.state.time;
            selectedVehicle.total_no -= 1
            if(prevIndex){
             this.state[type][this.state[type].indexOf(prevIndex)].total_no += 1;
@@ -94,6 +94,21 @@ class SearchComponent extends Component{
                time: timeTaken,
                distanceError: ''
            })
+        }else{
+           let selectedPlanet =  this.state['planets'][event.target.value];
+           let selectedVehicle = this.state['vehicles'][this.state.selectedData.vehiclesIndex[index]];
+           let prevVehicle = this.state.selectedData['vehicles'][index];
+           let prevPlanet = this.state.selectedData['planets'][index];
+           if(selectedPlanet && selectedVehicle){
+            if(prevVehicle && prevPlanet){
+                timeTaken -=  this.state['planets'][this.state['planets'].indexOf(prevPlanet)].distance / this.state['vehicles'][this.state['vehicles'].indexOf(prevVehicle)].speed
+               }
+               timeTaken += selectedPlanet.distance / selectedVehicle.speed;       
+           }
+           this.setState({
+            time: timeTaken,
+            distanceError: ''
+        })
         }
        newSelections[index] = this.state[type][event.target.value];
        this.setState({
