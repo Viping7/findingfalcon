@@ -70,7 +70,13 @@ code {
       }
   }
   &.disabled{
-    opacity: 0.2;
+    opacity: 0.3;
+    cursor: not-allowed;
+    &:hover{
+      input ~ .checkmark{
+          background-color: transparent;
+      }
+  }
   }
 }
 

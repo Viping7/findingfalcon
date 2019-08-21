@@ -82,13 +82,7 @@ class SearchComponent extends Component{
        indexArray[index] = event.target.value; 
         if(type=='vehicles'){
            let selectedVehicle =  this.state['vehicles'][event.target.value];
-           let selectedPlanet = this.state['planets'][this.state.selectedData.planetsIndex[index]];     
-           if(selectedVehicle.max_distance < selectedPlanet.distance){
-               this.setState({
-                   distanceError:'Error'
-               })
-               return;
-           }
+           let selectedPlanet = this.state['planets'][this.state.selectedData.planetsIndex[index]];
            let timeTaken = this.state.time;
            selectedVehicle.total_no -= 1
            if(prevIndex){
@@ -166,7 +160,7 @@ class SearchComponent extends Component{
                                         {planetsList}
                         </select>
                         <div className='vehicle-container'>
-                        {(this.state.selectedData.planetsIndex[i]) ? <Vehicles vehicles={this.state.vehicles} index={i} handleVehicleChange = {(e)=>this.handleChange(i,e,'vehicles')} vehiclesIndex={this.state.selectedData.vehiclesIndex}/>  : null}
+                        {(this.state.selectedData.planetsIndex[i]) ? <Vehicles vehicles={this.state.vehicles} index={i} handleVehicleChange = {(e)=>this.handleChange(i,e,'vehicles')} vehiclesIndex={this.state.selectedData.vehiclesIndex} selectedPlanets = {this.state.selectedData.planets}/>  : null}
                         </div>
                     </div>
                 )
