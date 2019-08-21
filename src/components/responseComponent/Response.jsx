@@ -12,10 +12,10 @@ class ResponseComponent extends Component{
             message :''
         }
         this.startOver = this.startOver.bind(this);
-        // if(!props.timeTaken){
-        //     props.history.push('/search');
-        //     return;
-        // }
+        if(!props.timeTaken){
+            props.history.push('/search');
+            return;
+        }
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.resetTriggered){
@@ -39,6 +39,7 @@ class ResponseComponent extends Component{
     startOver(){
         this.props.resetAll();
         this.props.history.push('/search');
+        this.props.setResetBack();
     }
     render(){
         return(
