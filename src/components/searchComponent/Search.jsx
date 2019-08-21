@@ -179,6 +179,11 @@ class SearchComponent extends Component{
                     <div className='row align-items-center vh-100'>
                         <div className='col-12'>
                             <div className='row'>
+                                <div className='col-12'>
+                                    <h1 className='header-title'>Select Planets you want to search in:</h1>
+                                </div>
+                            </div>
+                            <div className='row'>
                                 {seletList}
                             </div>
                             <div className='row'>

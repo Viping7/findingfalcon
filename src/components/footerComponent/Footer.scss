@@ -1,0 +1,8 @@
+.footer-text{
+    text-align: center;
+    font-size: 12px;
+    margin-top: -40px;
+    @media screen and (max-width:500px) {
+        margin-top: 15px;
+    }
+}

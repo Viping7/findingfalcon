@@ -7,6 +7,7 @@ import SearchComponent from './components/searchComponent/Search';
 import { createHashHistory } from 'history';
 import Header from './components/headerComponent/Header';
 import ResponseComponent from './components/responseComponent/Response';
+import Footer from './components/footerComponent/Footer';
 const history = createHashHistory();
 
 class App extends Component {
@@ -24,6 +25,7 @@ class App extends Component {
                <Route path='/search' component = {SearchComponent}></Route>
                <Route path='/response' component = {ResponseComponent}></Route>
             </Switch>
+            <Footer></Footer>
           </HashRouter>
       </Provider>
     );
